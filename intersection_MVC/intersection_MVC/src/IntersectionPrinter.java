@@ -1,4 +1,4 @@
-public class PrintIntersection {// view
+public class IntersectionPrinter {// view
     public static void Print(IntersectionType type){
         System.out.println( switch (type){
             case Point -> "Point";
