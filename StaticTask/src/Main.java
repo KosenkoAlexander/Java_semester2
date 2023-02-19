@@ -1,4 +1,4 @@
-public class Main {
+public class Main {//view
     public static void main(String[] args){
         Driver driver=new Driver(new Car());
         System.out.println("Completely new car:\ncar is "+driver.car.getNeedsRepairPercent()+" % broken");
@@ -30,7 +30,7 @@ class Car{
         return needsRepairPercent;
     }
 }
-class Driver{
+class Driver{//model
     Car car;
     public Driver(Car car){
         this.car=car;
@@ -39,7 +39,7 @@ class Driver{
         car.Fix(5);
     }
 }
-class AutoserviceStation{
+class AutoserviceStation{//controller
     public static void Repair(Car car){
         car.Fix(50);
     }
