@@ -9,7 +9,7 @@ public class Main {//dispatcher
         driver.tryRepair();
         System.out.println("Driver tries fixing:");
         CarPrinter.printCar(driver.car);
-        AutoserviceStation.repair(driver.car);
+        AutoserviceStation.repair(driver);
         System.out.println("After autoservice:");
         CarPrinter.printCar(driver.car);
     }
@@ -49,7 +49,7 @@ class Driver{//model
     }
 }
 class AutoserviceStation{//controller
-    public static void repair(Car car){
-        car.fix(50);
+    public static void repair(Driver driver){
+        driver.car.fix(50);
     }
 }
