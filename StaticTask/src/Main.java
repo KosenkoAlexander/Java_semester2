@@ -1,13 +1,22 @@
-public class Main {//view
+public class Main {//dispatcher
     public static void main(String[] args){
         Driver driver=new Driver(new Car());
-        System.out.println("Completely new car:\ncar is "+driver.car.getNeedsRepairPercent()+" % broken");
+        System.out.println("Completely new car:");
+        CarPrinter.PrintCar(driver.car);
         driver.car.Destroy(60);
-        System.out.println("After some accident:\ncar is "+driver.car.getNeedsRepairPercent()+" % broken");
+        System.out.println("After some accident:");
+        CarPrinter.PrintCar(driver.car);
         driver.TryRepair();
-        System.out.println("Driver tries fixing:\ncar is "+driver.car.getNeedsRepairPercent()+" % broken");
+        System.out.println("Driver tries fixing:");
+        CarPrinter.PrintCar(driver.car);
         AutoserviceStation.Repair(driver.car);
-        System.out.println("After autoservice:\ncar is "+driver.car.getNeedsRepairPercent()+" % broken");
+        System.out.println("After autoservice:");
+        CarPrinter.PrintCar(driver.car);
+    }
+}
+class CarPrinter{//view
+    static void PrintCar(Car car){
+        System.out.println("car is "+car.getNeedsRepairPercent()+" % broken");
     }
 }
 class Car{
