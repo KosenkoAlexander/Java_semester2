@@ -19,7 +19,7 @@ class CarPrinter{//view
         System.out.println("car is "+car.getNeedsRepairPercent()+" % broken");
     }
 }
-class Car{
+class Car{//model
     private int needsRepairPercent=0;
     public void Fix(int percent){
         if(percent<0)return;
