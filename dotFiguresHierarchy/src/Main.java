@@ -1,11 +1,28 @@
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        ControllerAndView c=new ControllerAndView(100,100);
+        c.printCharLine(5,5,20,'*');
+        c.show();
     }
 }
 class ControllerAndView{
-    public static void printCharLine(int x, int y, int length, char character){
-
+    private StringBuilder[] text;
+    public ControllerAndView(int width, int length){
+        text=new StringBuilder[length];
+        for(int i=0; i<text.length; i++){
+            text[i]=new StringBuilder("-".repeat(width));
+        }
+    }
+    public void printCharLine(int x, int y, int length, char character){
+        String replacement=Character.toString(character);
+        for(int i=0; i<length; i++){
+            text[y].replace(x+i, x+i+1, replacement);
+        }
+    }
+    public void show(){
+        for(int i=text.length-1; i>=0; i--){
+            System.out.println(text[i]);
+        }
     }
 }
 class Rectangle{
