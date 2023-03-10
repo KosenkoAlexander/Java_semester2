@@ -59,7 +59,11 @@ class Student{
         return s;
     }
     public void setName(String name){
-        if(nameChangeable)this.name=name;
+        if(nameChangeable){
+            this.name=name;
+        }else{
+            throw new UnsupportedOperationException();
+        }
     }
 }
 class Group{
