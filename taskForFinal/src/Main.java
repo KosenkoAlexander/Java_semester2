@@ -35,12 +35,12 @@ public class Main {
     }
 }
 class Student{
-    public final String name;
+    private String name;
+    private boolean nameChangeable=true;
     private List<Integer> marks=new ArrayList<>();
     public Student(String name){
         this.name=name;
     }
-
     public String getName() {
         return name;
     }
@@ -49,6 +49,7 @@ class Student{
     }
     public void finishYear(){
         marks=Collections.unmodifiableList(marks);
+        nameChangeable=false;
     }
     public String toString(){
         String s = name+"\n";
@@ -56,6 +57,9 @@ class Student{
             s+=i+" ";
         }
         return s;
+    }
+    public void setName(String name){
+        if(nameChangeable)this.name=name;
     }
 }
 class Group{
