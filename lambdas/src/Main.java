@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.Random;
+import java.util.function.IntPredicate;
 
 public class Main {
     public static void main(String[] args) {
@@ -9,15 +10,21 @@ public class Main {
             array[i]= r.nextInt(-10,10);
         }
         printIntArr(array);
-        int[] negativeArray = Arrays.stream(array).filter(i->i<0).toArray();
+        System.out.println("negative-positive");
+        splitAndPrint(array, i->i<0);
+        System.out.println("even-odd");
+        splitAndPrint(array, i->i%2==0);
+    }
+    public static void splitAndPrint(int[] array, IntPredicate predicate){
+        int[] negativeArray = Arrays.stream(array).filter(predicate).toArray();
         printIntArr(negativeArray);
-        int[] positiveArray = Arrays.stream(array).filter(i->i>=0).toArray();//we need to split an array, therefore zeros must go to some part
+        int[] positiveArray = Arrays.stream(array).filter(predicate.negate()).toArray();
         printIntArr(positiveArray);
-        double nmean=mean(negativeArray);
-        System.out.println("negative mean "+nmean);
-        double pmean=mean(positiveArray);
-        System.out.println("positive mean "+pmean);
-        int[] between=Arrays.stream(array).filter(i->i>=nmean&&i<=pmean).toArray();
+        double mean1=mean(negativeArray);
+        System.out.println("mean 1 :"+mean1);
+        double mean2=mean(positiveArray);
+        System.out.println("mean 2 :"+mean2);
+        int[] between=Arrays.stream(array).filter(i->i>=Math.min(mean1,mean2)&&i<=Math.max(mean1,mean2)).toArray();
         printIntArr(between);
     }
     public static void printIntArr(int[] array){
