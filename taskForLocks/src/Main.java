@@ -6,9 +6,9 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Main {
     public static void main(String[] args) throws InterruptedException{
         initialGenerator(false, 1000);
-        Counter c1=new Counter(new File("numbers0"), "count1");
-        Counter c2=new Counter(new File("numbers1"), "count2");
-        Counter c3=new Counter(new File("numbers2"), "count3");
+        Counter c1=new Counter(new File("numbers0"), "count0");
+        Counter c2=new Counter(new File("numbers1"), "count1");
+        Counter c3=new Counter(new File("numbers2"), "count2");
         c1.start();
         c2.start();
         c3.start();
@@ -54,7 +54,7 @@ public class Main {
 }
 class Counter extends Thread{
     private static int count=0;
-    private int lockcount=0;
+    private int lockcount=1;
     public static int getCount(){
         return count;
     }
@@ -67,16 +67,20 @@ class Counter extends Thread{
     private static Lock lock=new ReentrantLock();
     public void run(){
         try{
-            while(!lock.tryLock()){
-                System.out.println(name+" LOCKED "+lockcount+"th time");
-                lockcount++;
-            }
             FileReader r=new FileReader(file);
             BufferedReader reader=new BufferedReader(r);
             try {
                 while (reader.ready()){
                     char c=(char)reader.read();
-                    if(Character.isDigit(c))count+=Character.digit(c, 10);
+                    try {
+                        while (!lock.tryLock()) {
+                            System.out.println(name + " LOCKED " + lockcount + "th time");
+                            lockcount++;
+                        }
+                        if (Character.isDigit(c)) count += Character.digit(c, 10);
+                    }finally {
+                        lock.unlock();
+                    }
                 }
             }finally {
                 r.close();
@@ -85,9 +89,6 @@ class Counter extends Thread{
         }catch(IOException e){
             System.out.println("IOException");
             e.printStackTrace();
-        }
-        finally {
-            lock.unlock();
         }
     }
     public static void reset(){
