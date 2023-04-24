@@ -54,6 +54,7 @@ public class Main {
 }
 class Counter extends Thread{
     private static int count=0;
+    private int lockcount=0;
     public static int getCount(){
         return count;
     }
@@ -67,7 +68,8 @@ class Counter extends Thread{
     public void run(){
         try{
             while(!lock.tryLock()){
-                System.out.println(name+" LOCKED");
+                System.out.println(name+" LOCKED "+lockcount+"th time");
+                lockcount++;
             }
             FileReader r=new FileReader(file);
             BufferedReader reader=new BufferedReader(r);
