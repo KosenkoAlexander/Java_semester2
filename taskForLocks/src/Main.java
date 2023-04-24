@@ -72,14 +72,17 @@ class Counter extends Thread{
             try {
                 while (reader.ready()){
                     char c=(char)reader.read();
-                    try {
-                        while (!lock.tryLock()) {
-                            System.out.println(name + " LOCKED " + lockcount + "th time");
-                            lockcount++;
+                    if((Character.isDigit(c))){
+                        int digit=Character.digit(c, 10);
+                        try {
+                            while (!lock.tryLock()) {
+                                System.out.println(name + " LOCKED " + lockcount + "th time");
+                                lockcount++;
+                            }
+                            count += digit;
+                        } finally {
+                            lock.unlock();
                         }
-                        if (Character.isDigit(c)) count += Character.digit(c, 10);
-                    }finally {
-                        lock.unlock();
                     }
                 }
             }finally {
