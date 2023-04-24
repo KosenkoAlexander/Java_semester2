@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.Random;
-import java.util.Scanner;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -16,7 +15,18 @@ public class Main {
         c1.join();
         c2.join();
         c3.join();
-        System.out.println(Counter.getCount());
+        System.out.println("Lock digit sum "+Counter.getCount());
+        Counter.reset();
+        c1=new Counter(new File("numbers0"), "count1");
+        c2=new Counter(new File("numbers1"), "count2");
+        c3=new Counter(new File("numbers2"), "count3");
+        c1.start();
+        c1.join();
+        c2.start();
+        c2.join();
+        c3.start();
+        c3.join();
+        System.out.println("One at a time test "+Counter.getCount());
     }
     public static void initialGenerator(boolean deleteAfterWork, int len){
         for(int i=0; i<3; i++){
@@ -35,11 +45,9 @@ public class Main {
                     }finally {
                         writer.close();
                     }
-
                 }catch (IOException e){
                     System.out.println("troubles with files");
                 }
-
             }
         }
     }
@@ -61,10 +69,8 @@ class Counter extends Thread{
             while(!lock.tryLock()){
                 System.out.println(name+" LOCKED");
             }
-
             FileReader r=new FileReader(file);
             BufferedReader reader=new BufferedReader(r);
-
             try {
                 while (reader.ready()){
                     char c=(char)reader.read();
@@ -74,7 +80,6 @@ class Counter extends Thread{
                 r.close();
                 reader.close();
             }
-
         }catch(IOException e){
             System.out.println("IOException");
             e.printStackTrace();
@@ -82,5 +87,8 @@ class Counter extends Thread{
         finally {
             lock.unlock();
         }
+    }
+    public static void reset(){
+        count=0;
     }
 }
